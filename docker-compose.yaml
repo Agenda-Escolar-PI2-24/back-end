@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  api:
+    container_name: api
+    build: 
+      context: .
+    command: bash -c "go get . && go run ."
+    ports:
+      - "8000:8000"
+    volumes:
+      - /app
+    restart: on-failure
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - app_network
+  
+  db:
+    container_name: db
+    image: postgres:13-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init_db:/docker-entrypoint-initdb.d
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
