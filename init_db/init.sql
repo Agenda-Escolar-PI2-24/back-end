@@ -38,3 +38,6 @@ alter table "user"
 
 alter sequence user__id_seq1 owned by "user"._id;
 
+alter table "user"
+    add constraint user_username_un
+        unique (username);

@@ -30,6 +30,9 @@ func (*TaskController) Create(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid data"})
 		return
 	}
+	if len(input.Date) == 10 {
+		input.Date += " 00:00:00"
+	}
 	if !pkg.IsDateValid(input.Date) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": `invalid "date" field`})
 		return

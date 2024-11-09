@@ -5,6 +5,7 @@ import (
 	"agenda-escolar/internal/storage/repository"
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 )
 
 var userRepository repository.UserRepository
@@ -12,7 +13,12 @@ var userRepository repository.UserRepository
 type UserService struct {
 }
 
-func (*UserService) Register(user domain.User) error {
+func (us *UserService) Register(user domain.User) error {
+	exists, err := us.Exists(user.Username)
+	if exists || err != nil {
+		return fmt.Errorf("user already exists")
+	}
+
 	user.Password = encriptToMd5(user.Password)
 	return userRepository.Register(user)
 }
