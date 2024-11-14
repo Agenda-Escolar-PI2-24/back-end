@@ -30,13 +30,7 @@ func (*TaskController) Create(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid data"})
 		return
 	}
-	if len(input.Date) == 10 {
-		input.Date += " 00:00:00"
-	}
-	if !pkg.IsDateValid(input.Date) {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": `invalid "date" field`})
-		return
-	}
+
 	user_id := c.Keys["user_id"].(int)
 
 	inputBytes, _ := json.Marshal(input)
@@ -59,20 +53,10 @@ func (*TaskController) Create(c *gin.Context) {
 }
 
 func (*TaskController) List(c *gin.Context) {
-	dateFrom := c.Query("dateFrom")
-	dateTo := c.Query("dateTo")
-	if len(dateFrom) == 10 {
-		dateFrom += " 00:00:00"
-	}
-	if len(dateTo) == 10 {
-		dateTo += " 23:59:59"
-	}
-	if !pkg.IsDateValid(dateFrom) || !pkg.IsDateValid(dateTo) {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "dateFrom or dateTo query param is invalid, requires format (yyyy-mm-dd)"})
-		return
-	}
-	user_id := c.Keys["user_id"].(int)
-	list, err := taskService.List(user_id, dateFrom, dateTo)
+	// user_id := c.Keys["user_id"].(int)
+	
+	// list, err := taskService.List(user_id)
+	list, err := taskService.List()
 
 	if err != nil {
 		fmt.Println(err)
@@ -106,6 +90,7 @@ func (*TaskController) GetByID(c *gin.Context) {
 }
 
 func (*TaskController) Update(c *gin.Context) {
+	
 	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
 	if id <= 0 {
@@ -113,6 +98,7 @@ func (*TaskController) Update(c *gin.Context) {
 		return
 	}
 	form := make(map[string]any)
+	
 	err := c.BindJSON(&form)
 	if err != nil {
 		fmt.Println(err)
@@ -138,3 +124,4 @@ func (*TaskController) Update(c *gin.Context) {
 
 	c.JSON(http.StatusOK, task)
 }
+

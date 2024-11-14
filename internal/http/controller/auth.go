@@ -56,3 +56,4 @@ func Register(c *gin.Context) {
 	//user.ID = 1 // Just for demonstration purposes
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
+

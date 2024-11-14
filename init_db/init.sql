@@ -14,11 +14,11 @@ create table if not exists task
     title        varchar(150)                                      not null,
     class        varchar(10)                                       not null,
     date         timestamp                                         not null,
-    content      varchar(255),
+    content      text,
     user_id      integer,
     contempled   boolean default false,
     satisfactory boolean default false,
-    obs          varchar(255)
+    obs          text
 );
 
 alter table task

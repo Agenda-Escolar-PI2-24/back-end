@@ -18,9 +18,10 @@ func (*TaskService) Update(task *domain.Task) (*domain.Task, error) {
 	return taskRepository.Update(task)
 }
 
-func (*TaskService) List(userID int, dateFrom, dateTo string) ([]domain.Task, error) {
-	return taskRepository.List(userID, dateFrom, dateTo)
+func (*TaskService) List() ([]domain.Task, error) {
+	return taskRepository.List()
 }
+
 
 func (*TaskService) GetByID(id int) (*domain.Task, error) {
 	return taskRepository.GetByID(id)
