@@ -10,7 +10,7 @@ import (
 
 var (
 	SQLITE_URL_CONN   string = ""
-	POSTGRES_URL_CONN string = "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
+	POSTGRES_URL_CONN string = "host=localhost port=5432 user=postgres password=postgres dbname=schedule sslmode=disable"
 )
 
 func init() {
@@ -26,6 +26,6 @@ func init() {
 	DB_USER := os.Getenv("DB_USER")
 	DB_PASSWORD := os.Getenv("DB_PASSWORD")
 	if DB_HOST != "" && iPort != 0 {
-		POSTGRES_URL_CONN = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", DB_HOST, iPort, DB_NAME, DB_USER, DB_PASSWORD)
+		POSTGRES_URL_CONN = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", DB_HOST, iPort, DB_USER, DB_PASSWORD, DB_NAME)
 	}
 }
