@@ -54,7 +54,7 @@ func (*TaskController) Create(c *gin.Context) {
 
 func (*TaskController) List(c *gin.Context) {
 	// user_id := c.Keys["user_id"].(int)
-	
+
 	// list, err := taskService.List(user_id)
 	list, err := taskService.List()
 
@@ -90,7 +90,7 @@ func (*TaskController) GetByID(c *gin.Context) {
 }
 
 func (*TaskController) Update(c *gin.Context) {
-	
+
 	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
 	if id <= 0 {
@@ -98,18 +98,39 @@ func (*TaskController) Update(c *gin.Context) {
 		return
 	}
 	form := make(map[string]any)
-	
+
 	err := c.BindJSON(&form)
-	if err != nil {
+	if err != nil || len(form) == 0 {
 		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid request"})
 		return
 	}
-	formBytes, _ := json.Marshal(form)
+
 	var formData domain.Task
 
-	json.Unmarshal(formBytes, &formData)
 	formData.ID = &id
+	if value, valid := form["title"].(string); valid {
+		formData.Title = &value
+	}
+	if value, valid := form["obs"].(string); valid {
+		formData.Obs = &value
+	}
+	if value, valid := form["content"].(string); valid {
+		formData.Content = &value
+	}
+	if value, valid := form["class"].(string); valid {
+		formData.Class = &value
+	}
+	if value, valid := form["userId"].(float64); valid {
+		user_id := int(value)
+		formData.UserID = &user_id
+	}
+	if value, valid := form["contempled"].(bool); valid {
+		formData.Contempled = &value
+	}
+	if value, valid := form["satisfactory"].(bool); valid {
+		formData.Satisfactory = &value
+	}
 
 	if dt, ok := form["date"].(string); ok {
 		formData.Date, _ = pkg.ParseDate(dt)
@@ -124,4 +145,3 @@ func (*TaskController) Update(c *gin.Context) {
 
 	c.JSON(http.StatusOK, task)
 }
-

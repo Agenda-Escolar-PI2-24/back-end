@@ -22,7 +22,6 @@ func (*TaskService) List() ([]domain.Task, error) {
 	return taskRepository.List()
 }
 
-
 func (*TaskService) GetByID(id int) (*domain.Task, error) {
 	return taskRepository.GetByID(id)
 }

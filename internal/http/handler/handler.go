@@ -25,7 +25,7 @@ func HandleRequests(router *gin.Engine) {
 		agendaRoutes.POST("", agendaController.Create)
 		agendaRoutes.GET("", agendaController.List)
 		agendaRoutes.GET("/:id", agendaController.GetByID)
-		agendaRoutes.PATCH("/:id", agendaController.Update)
+		agendaRoutes.PUT("/:id", agendaController.Update)
 	}
 
 }
