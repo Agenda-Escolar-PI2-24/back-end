@@ -18,6 +18,7 @@ func Login(c *gin.Context) {
 
 	// Check user credentials and generate a JWT token
 	if err := c.ShouldBindJSON(&user); err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
 		return
 	}
@@ -28,6 +29,7 @@ func Login(c *gin.Context) {
 		// Generate a JWT token
 		token, err := pkg.GenerateToken(int(user.ID), user.Username)
 		if err != nil {
+			fmt.Println(err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "error generating token"})
 			return
 		}
@@ -43,6 +45,7 @@ func Register(c *gin.Context) {
 	var user domain.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
 		return
 	}
@@ -50,10 +53,10 @@ func Register(c *gin.Context) {
 	// Remember to securely hash passwords before storing them
 	err := userService.Register(user)
 	if err != nil {
+		fmt.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("cannot register user: %s", err.Error())})
 		return
 	}
 	//user.ID = 1 // Just for demonstration purposes
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
-
