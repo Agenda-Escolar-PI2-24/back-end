@@ -10,4 +10,4 @@ Run through docker by running `docker-compose up`
 |POST|   /v1/agenda             | create task on agenda
 |GET|    /v1/agenda             | list tasks from agenda                                                                
 |GET|    /v1/agenda/:id         | retrieve one task by id
-|PATCH|  /v1/agenda/:id         | update some task
+|PUT|    /v1/agenda/:id         | update some task
